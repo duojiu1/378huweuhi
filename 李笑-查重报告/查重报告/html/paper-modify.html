@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>无标题文档</title>
+		<link href="img/style.css" rel="stylesheet" type="text/css" media="all" />
+		<script>
+			function save(){
+				var f = document.papermodifyForm;
+				f.action = "http://api.xueshuda.com/paper_modify/save.do";
+				f.target = "papermodifyFrame";
+				f.submit();
+				
+				document.getElementById("modified").innerHTML = "（最后保存时间："+getNow()+"）";
+			}
+			
+			function editFocus(){
+				document.onkeydown = function(e){
+					//Ctrl+S
+					if (e.ctrlKey == true && e.keyCode == 83) {
+						save();
+						return false;
+					}
+				};
+				document.getElementById("ctrlS").style.display = "inline";
+			}
+			
+			function editBlur(){
+				document.onkeydown = null;
+				document.getElementById("ctrlS").style.display = "none";
+			}
+			
+			function exp(){
+				var f = document.papermodifyForm;
+				f.action = "http://api.xueshuda.com/paper_modify/exp.do";
+				f.target = "papermodifyFrame";
+				f.submit();
+			}
+			
+			function check(){
+				var f = document.papermodifyForm;
+				f.action = "http://u.paperok.com/check/submit.do";
+				f.target = "_blank";
+				f.submit();
+			}
+			
+			function load_cb(data){
+				if(data.errcode == 0){
+					var text = data.text;
+					var modified = data.modified;
+					
+					document.getElementById("originalText").value = text;
+					document.getElementById("modified").innerHTML = "（最后保存时间："+modified+"）";
+					//alert("加载成功");
+				}else{
+					document.getElementById("modified").innerHTML = "";
+				}
+			}
+			
+			function load(){
+				document.getElementById("modified").innerHTML = "正在加载上次保存的内容...";
+				var url = "http://api.xueshuda.com/paper_modify/jsonp/get.do?uuid=9c7ef7b1-9a55-4e8a-b6f2-10c1ccdec2b4&callback=load_cb&r="+Math.random();
+				var script = document.createElement('script');
+				script.setAttribute('src', url);
+				document.getElementsByTagName('head')[0].appendChild(script);
+			}
+			 
+			window.onload = function(){
+				document.getElementById("originalText").onfocus = editFocus;
+				document.getElementById("originalText").onblur = editBlur;
+				
+				if(navigator && navigator.onLine === false){
+					alert("您的电脑没有联网，无法自动加载上次保存的内容");
+				}else{
+					load();
+				}
+			};
+			
+			function getNow() {
+				var date = new Date();
+				var y = date.getFullYear();
+				var m = date.getMonth() + 1;
+				m = m < 10 ? "0" + m : m;
+				var d = date.getDate();
+				d = d < 10 ? "0" + d : d;
+				var h = date.getHours();
+				h = h < 10 ? "0" + h : h;
+				var mi = date.getMinutes();
+				mi = mi < 10 ? "0" + mi : mi;
+				var s = date.getSeconds();
+				s = s < 10 ? "0" + s : s;
+				var curr =  y + "-" + m + "-" + d +" "+ h + ":" + mi + ":" + s;
+				return curr;
+			}
+		</script>
+	</head>
+	<body id="paper-modify">
+		<div class="operate">
+			<a href="javascript:save()">保存<span id="ctrlS">（Ctrl+S）</span></a>
+			<a href="javascript:exp()">导出</a>
+			<a href="javascript:check()">提交查重</a>
+			<font color="#ff4500"><strong>温馨提示：修改后，请点“保存”按钮，或“导出”到本地保存。</strong></font>
+		</div>
+		
+		<div id="paper-edit-title">编辑区<span id="modified"></span></div>
+		<div id="full-text-title">详细报告</div>
+		<div id="simi-reult-title">片段相似详情</div>
+		
+		<div id="paper-edit">
+			<form id="papermodifyForm" name="papermodifyForm" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="uuid" value="9c7ef7b1-9a55-4e8a-b6f2-10c1ccdec2b4"/>
+				<input type="hidden" name="code" value="paperok"/>
+				<input type="hidden" name="title" value="Photoshop的简单使用"/>
+				<input type="hidden" name="author" value="李笑"/>
+				<textarea id="originalText" name="text">
+临汾职业技术学院
+
+毕业设计说明书
+
+
+题目：
+
+
+
+姓名;李 笑
+所在系别：计算机系
+专业班级：计161班
+学号;1651101011
+指导老师：李艳霞
+日期；2019年3月15号
+
+Photoshop的简单使用
+
+引言
+近年来，随着计算机图像技术的迅速发展和应用，个人计算机上的艺术创作进入了一个新的阶段，各种图像软件也越来越完善，其普及率不断提高。photoshop是图像软件处理工具，目前被公认为是一种较好的通用图形艺术设计软件。功能完善，性能稳定，使用方便。photoshop具有以下功能：图像修改、图形编辑、图像颜色处理等。此外，它还具有绘制和输出功能。随着photoshop版本的升级，中文版的photoshop cs5优化了原版的多种功能，使图像处理更容易、更方便、更完善。
+Photoshop软件具有以下几个优点：
+(1)功能强大的选择工具
+photoshop有多种选择工具，大大方便了用户的不同需求。各种选择工具也可以组合起来选择和生成各种更复杂的图像。
+(2)制定多种文字和图片效果
+photoshop不仅可以创建精美的文本建模，还可以对文本和图片进行复杂的转换，如在文本和图片中添加阴影效果、重叠图片以及在文本和图片中添加动画效果。
+(3)多姿多彩的滤镜
+Photoshop不仅有多种内置过滤器供用户选择，还支持第三方过滤器。这样，photoshop就有了“取之不尽，用之不竭”的过滤器。
+(4)易学易用，用途广泛
+不了解photoshop的人通常认为它是一个专业的图形和图像处理软件。事实上，这是一个误会。虽然photoshop功能强大，但很容易学习和使用，适合不同层次的用户使用。它涉及图像合成、过滤器、遮罩、样式、颜色校正、运动调色板、路径工具、图层调色板、通道使用和其他图像处理功能。它可以产生各种效果，如按钮制作、动画效果、肖像处理、文本效果、纹理、三维对象、效果效果和广告创意设计等用途。深入学习是件好事。软件。
+设计思路及准备工作
+内容的确定
+我的作品是根据一本小说‘小时代’做的书籍封面，因为这本书是我高中时期非常喜欢的书籍之一。内容让我很感动。主要讲述了上海经济快速发展时期的历史。主角林晓、南翔、古丽、唐四个女孩，在这个美丽时尚的城市里生活、学习、工作、成长。四个女孩从小就有着深厚的情感，但她们的价值观和人生观各不相同。面对工作实践和生存的巨大压力，他们似乎被平静的生活所蒙蔽。他们不知道如何面对需要决定的事情。四个女孩必须经历友谊、爱情甚至家庭的巨大变化。面对巨大的变化，他们仍然坚持自己的人生态度，继续写自己的精彩青春故事。所以我选择这个有着年轻态度的小说，作为我这次的作品。
+素材，图像，元件的准备
+材料、形象、元器件的选择和准备工作是成功的基石。在这个阶段，不仅要花费大量的时间和精力去寻找材料，有时还要手工制作。
+制作过程
+选择菜单，新建一个文件，分辨率为300，18.5x26CM
+给背景一个贴近的封面背景颜色。
+打开准备好的图片，拖拽到新建文件中，
+选择图像按ctrl+t，进行图片大小的调整
+调整图片的对比度和饱和度。为图片添加阴影，使其更漂亮。
+选择图层调板，
+增加文字，调整文字大小，选择文字的格式和颜色
+制作书面二维码，利用法线和直线制作二维码
+最后调整整个封面，使其美观大方。
+五、总结
+我从写这篇论文的经验中受益匪浅。我觉得写论文是一件真正真诚的事情，是一个独立学习和独立思考的过程。希望这次的学习能在今后的生活激励我前进，不积硅步无以至千里，这次论文的制作离不开老师平时的悉心教导。在此，我谨向学校全体教师多年来的修养表示衷心的感谢。
+</textarea>
+			</form>
+		</div>
+		<div id="full-text">
+			<iframe src="full-text.html"></iframe>
+		</div>
+		<div id="simi-result">
+			<iframe src="full-text-report-welcome.html" name="resultFrame"></iframe>
+		</div>
+		<iframe name="papermodifyFrame" border="0" width="0" height="0"></iframe>
+	</body>
+</html>
